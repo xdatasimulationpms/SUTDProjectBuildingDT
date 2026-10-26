@@ -14,7 +14,9 @@ Copy this template into the project's ignored `local-data/` area for a real buil
 | Field | Entry |
 |---|---|
 | Research question and intended use | |
-| Building and selected floor/area | |
+| Building, included occupied floors and selected areas | |
+| Intermediate landings, discharge level and external targets | |
+| Excluded floors and possible shared-stair demand | |
 | Source owner and reviewer | |
 | Permission and redistribution limits | |
 | Native model filename and revision, if supplied | |
@@ -33,6 +35,9 @@ Copy this template into the project's ignored `local-data/` area for a real buil
 | Units and a known reference dimension | |
 | Coordinate frame, origin and any georeferencing | |
 | Floor elevations and nested placements | |
+| Stair systems, flights, landing levels and source mappings | |
+| Usable stair/landing geometry and dimensions; missing evidence | |
+| Complete routes through the discharge level to external targets | |
 | Spaces, doors, openings and major obstacles | |
 | Ambiguous proxy or misclassified elements | |
 | Missing relationships or properties | |

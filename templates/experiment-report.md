@@ -15,7 +15,12 @@ status: draft
 - Date and operator:
 - Source intake record and hashes:
 - Geometry/topology editions and scenario revision:
+- Included floors, stair systems, discharge route and external targets:
+- Excluded floors/populations and their potential effect on shared stairs:
 - Code revision and environment/engine/model versions:
+- Module, schema and toolkit adapter versions:
+- Toolkit client/harness version; local contract test or actual integration run:
+- Job/run IDs, call trace and result artifact references:
 - Run command or reproducible procedure:
 - Seeds, time step, run horizon and repetitions:
 - Hardware and processing time:
@@ -32,6 +37,10 @@ List the source, geometry, semantic, adapter and simulation checks that actually
 | | | | | | |
 
 Define each reported measurement, its units, time origin, counting boundary and aggregation method. Include variation across runs. For incomplete runs, state the censoring horizon and remaining population; do not assign a completed evacuation time.
+
+Report floor-clearance times, external arrivals by origin floor, stair/landing queues and the population remaining on floors or in stairs. Distinguish landing arrival from completion of the declared route. Record the identity/count checks across level transfers and the findings from the stair/merge test cases.
+
+For an integration experiment, record discovery, input validation, job status, retry/cancellation and error-handling outcomes. Check the agent's presented numbers and caveats against the structured comparison and its artifact references.
 
 ## Interpretation
 

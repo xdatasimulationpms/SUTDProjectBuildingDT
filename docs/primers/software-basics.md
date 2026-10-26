@@ -23,6 +23,10 @@ You do not need to become an expert in every part of software development. Begin
 | Virtual environment | A project-specific place for Python packages, separate from other projects |
 | JSON | A text format for structured data, using named fields, lists and values |
 | API | A defined way for one piece of software to request something from another |
+| Toolkit adapter | A small layer that maps the toolkit's calls to this project's functions |
+| Schema | A machine-readable definition of allowed fields, types and required values |
+| Job | A tracked piece of work that may continue after the initial call returns |
+| Module manifest | A description of the module's capabilities, version, inputs, outputs and requirements |
 | Test | A check that compares software behaviour with an expected result |
 | Hash | A fingerprint used to check whether a file's bytes changed |
 
@@ -71,6 +75,16 @@ Git tracks selected files, not everything on the computer. Before a commit, insp
 
 ## Installation comes after choosing a small exercise
 
+The [agent module explanation](#how-the-toolkit-agent-uses-a-module) describes how these software habits support FDDE integration.
+
 For now, the repository can be read without installing anything. When coding begins, agree a supported Python version and compatible package releases, create an environment and record exact versions after a successful smoke test. Do not start by installing every tool in the reference list.
 
 The first smoke tests should be: read a tiny JSON file; open one IFC and count elements; run one small pedestrian tutorial. Test these separately before joining them. The project does not yet supply installation scripts or an application launch command.
+
+## How the toolkit agent uses a module
+
+The officer asks a planning question. The FDDE agent selects a named operation and supplies structured arguments, such as a model reference and occupants per floor. The module validates those fields, runs the appropriate processing function and returns structured results or a clear error.
+
+For a long simulation, the first response contains a job reference. The toolkit can ask for its status and retrieve result artifacts when it finishes. The module must distinguish an engine failure, an unfinished scenario and a completed run.
+
+Agent readiness comes from those defined operations, schemas, results and tested failure behaviour. The FDDE Toolkit supplies the conversational agent. This project supplies the reliable functions and integration package described in the [contract](../toolkit-integration-contract.md).

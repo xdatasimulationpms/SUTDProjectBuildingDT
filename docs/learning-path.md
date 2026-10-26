@@ -15,39 +15,45 @@ Read the [project overview](../README.md) and [BIM and IFC primer](primers/bim-a
 
 Explain the project back in these terms: “We keep the building record, extract the relevant information, check the connections, and simulate separate scenarios.” If that is clear, move on.
 
+The final demonstration is an agent-ready module in the FDDE Toolkit and covers multiple floors. After the first floor exercise, add another occupied floor, a shared stair and a discharge route. Then learn to call preparation/simulation functions with defined inputs and receive structured outputs.
+
 ## Learn in this order
 
-The effort ranges below are planning allowances for guided learning, not a delivery promise. A contributor learning programming for the first time may need longer.
+This project has one contributor working half time over twelve months. Begin with the introductory exercises during the first calendar month and continue learning within each phase. Review progress through the small outputs below, especially if programming is new.
 
 | Step | Read and try | Small output | Ready to move on when… |
 |---|---|---|---|
 | Understand building records | [BIM and IFC](primers/bim-and-ifc.md); official IFC introduction in the [reference list](tools-and-references.md#bim-and-ifc-learning) | Labelled drawing and a list of source file types | You can explain why a 3D mesh alone does not tell us which rooms connect |
 | Learn basic software habits | [Software basics](primers/software-basics.md); introductory Python and Git links | A tiny script that reads a fictional JSON room list and prints its names | You can run it twice, explain the output and inspect changes in Git |
 | Inspect a building model | Bonsai installation guide and IfcOpenShell introduction | An [intake record](../templates/model-intake.md) for a permitted sample, plus counts of spaces and doors | You can select an element, find its source identifier and identify the model's units |
-| Understand connections | [Geometry and semantics](primers/geometry-and-semantics.md) | A hand-reviewed space and passage table for the fictional floor | You can explain an unavailable connection and one that remains unknown |
+| Understand connections | [Geometry and semantics](primers/geometry-and-semantics.md) | A reviewed table of rooms, landings, passages and stair connections across the fictional levels | You can trace a complete route and explain blocked and unknown connections |
 | Try movement simulation | [Pedestrian simulation](primers/pedestrian-simulation.md); JuPedSim getting-started example | One local tutorial run and an [experiment report](../templates/experiment-report.md) | You can distinguish the inputs you supplied from the outputs the model produced |
+| Prove the multi-floor route | [Engine feasibility check](tools-and-references.md#early-engine-feasibility-check), completed by Month 2 | A small shared-stair model and a tested scenario/run/result interface in an existing engine | You can trace stair travel and merging, preserve occupant counts and show how the app will supply inputs |
+| Understand a toolkit module | [FDDE integration contract](toolkit-integration-contract.md); [software basics](primers/software-basics.md#how-the-toolkit-agent-uses-a-module) | An example request, validated response and tracked job; agree the binding in Month 1 | You can explain what the toolkit agent calls and how it learns whether work succeeded or needs input |
 | Join the parts | [Pipeline design](pipeline-design.md), [IFC requirements](ifc-data-requirements.md) | A proposed mapping from IFC elements to the reviewed floor model | You can show what is extracted, what is inferred and what needs a reviewer |
 
-Allow roughly two weeks for an initial guided pass, then reassess from the outputs rather than the elapsed time. It is fine to spend the first week on the first two steps.
+The full sequence supports the project over time; it is not all due in the first month. Begin with building concepts, Python and a simple function-call example. Learn the IFC and simulation tools as their phases approach, keeping their interfaces defined as they are built.
 
-## A useful first week
+## Five introductory learning sessions
 
-1. **Day 1:** Read the overview. Sketch the fictional floor. Write three questions the future application should answer.
-2. **Day 2:** Learn files, folders, variables, lists and dictionaries. Run a tiny Python program. No IFC installation is needed yet.
-3. **Day 3:** Learn JSON and Git changes. Keep all fictional dimensions explicitly labelled as made up.
-4. **Day 4:** With a technical mentor, choose a supported Python environment and an IFC viewer. Use the installation guides, not an old copied command list.
-5. **Day 5:** Inspect a permitted IFC sample if one is available. If not, finish the paper topology exercise and request a model using the intake template. Do not turn missing source data into a guessed building model.
+1. Read the overview. Sketch the fictional floor, then its connection to another floor and the building discharge. Write three questions a building officer should be able to explore with the application.
+2. Learn files, folders, variables, lists and dictionaries. Run a tiny Python program.
+3. Learn JSON and Git changes. Keep all fictional dimensions explicitly labelled as made up.
+4. Choose a supported Python environment and an IFC viewer, seeking technical help if available. Use the installation guides and record any installation problems.
+5. Inspect a permitted IFC sample if one is available. Otherwise, finish the paper topology exercise and request a model using the intake template.
+
+Spread these sessions over the half-time allocation and repeat exercises as needed. The [first sprint](project-plan.md#first-sprint-proposal) limits the first two calendar weeks to the core introductory tasks.
 
 ## What to ask a mentor
 
-- **BIM reviewer:** Does the IFC represent the intended revision? Were spaces, openings and linked models included? Which dimensions can we trust for this task?
-- **Software mentor:** Are the environment and package versions compatible? Can the same input reproduce the same derived files? Are errors visible?
-- **Evacuation specialist:** Which questions and occupant behaviours matter? What evidence and validation would be needed before anyone could use a result for planning?
+- **BIM reviewer:** Does the IFC represent the intended revision? Are the floors, openings, stair flights, landings and discharge route complete? Which dimensions can we trust for this task?
+- **Software or toolkit contact:** Which interface can the toolkit register? How are schemas, caller context, jobs and deployment handled? Can the same input reproduce the same artifacts?
+- **Evacuation specialist:** Which stair and merging behaviours matter? What evidence is needed for the selected multi-floor comparison and its interpretation?
 
-These are responsibilities, not three required full-time posts. A beginner can own the implementation with scheduled review support; they should not be expected to certify geometry or life-safety behaviour alone.
+One person owns the implementation. The contacts above provide occasional review or advice where available; they are not assumed to contribute development capacity. Record unresolved questions when support is unavailable and reflect those gaps in the scope of the demonstration.
 
 ## Avoid these early distractions
 
-Do not start with a universal building knowledge graph, an AI planning agent, a polished 3D city, Kubernetes, GPU rental or live sensor integration. First prove that a single door is mapped correctly and that changing its scenario availability changes both route eligibility and the simulator's permitted movement.
+Focus on tested preparation and simulation functions, then expose them through the existing toolkit's agent. A general building ontology, a new agent framework, a polished 3D city and a dedicated dashboard add work beyond the core module. First prove that a passage is mapped correctly and that a structured scenario call changes its availability consistently.
 
 Next: [Milestones and starter backlog](project-plan.md).

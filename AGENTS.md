@@ -18,7 +18,9 @@ Read `README.md`, `docs/index.md`, then the documents relevant to the task. This
 
 This project supports research and planning comparisons. Do not claim code compliance, accessibility certification, safe evacuation, or authority to issue emergency instructions. Follow `docs/validation-and-safety.md`. A successful render, simulation run or information check is not a safety assessment.
 
-Keep the initial scope to a reviewed single-floor case. Multi-floor movement, lifts, fire/smoke, assisted evacuation and live guidance require explicit new requirements and validation. JuPedSim is an academic experiment candidate, not an approved operational engine.
+The confirmed deliverable is an agent-ready building ingestion and multi-floor evacuation module for the FDDE Toolkit, developed by one person working half time for twelve months. Building officers are the users of the demonstration. Follow `docs/toolkit-integration-contract.md`: discoverable operations, schemas, structured results, jobs, explicit errors and an integration package are core scope. Reuse the toolkit's agent and shared interface; a dedicated dashboard is optional.
+
+A single-floor case is an introductory exercise. Core delivery includes reviewed stair flights, landings, merging movement and complete included routes to defined external targets. Test the engine-call route early; do not substitute independent floor runs for shared stair simulation. Lifts, fire/smoke, assisted evacuation and live guidance remain later scope. The core engine must pass `docs/tools-and-references.md` feasibility checks.
 
 ## Data and dependencies
 

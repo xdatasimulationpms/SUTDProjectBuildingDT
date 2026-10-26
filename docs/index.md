@@ -13,10 +13,12 @@ Follow the learning path if the subject is new. Use the design and checklist whe
 
 ## Plan and build
 
-1. [Pipeline design](pipeline-design.md) — stages, data records, review points, application screens and future integration.
-2. [IFC data requirements](ifc-data-requirements.md) — what to retain, derive, request or exclude.
-3. [Milestones and starter backlog](project-plan.md) — a small first demonstration and incremental delivery gates.
-4. [Validation and safety](validation-and-safety.md) — tests, reproducibility and limits on operational use.
+1. [Three phase project overview](three-phase-plan.md) — the twelve-month plan for one half-time implementer to deliver an agent-ready FDDE module, demonstrated through multi-floor evacuation comparisons.
+2. [FDDE integration and agent tool contract](toolkit-integration-contract.md) — discoverable capabilities, operation inputs/outputs, jobs, errors, packaging and integration acceptance.
+3. [Pipeline design](pipeline-design.md) — stages, data records, review points and the shared processing functions behind the toolkit adapter.
+4. [IFC data requirements](ifc-data-requirements.md) — what to retain, derive, request or exclude.
+5. [Milestones and starter backlog](project-plan.md) — the implementation tasks beneath the three phases.
+6. [Validation and safety](validation-and-safety.md) — tests, reproducibility and limits on operational use.
 
 ## Record the work
 

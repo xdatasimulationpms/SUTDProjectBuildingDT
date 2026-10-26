@@ -23,12 +23,14 @@ The project should produce understandable experiments, not reassuring animations
 |---|---|---|
 | Source integrity | Original hash unchanged; correct edition/floor; supplied dependencies known | Intake record and manifest |
 | Information retention | Required elements, relationships and properties survive extraction | Counts, representative comparisons and explicit exclusions |
-| Geometry | Units and transforms correct; valid polygons; door openings preserved; no unintended floor overlap | Reference dimensions and floor overlays |
-| Semantics | Directed connections correct; source/evidence references present; unknown stays unknown | Small labelled reference topology and reviewer notes |
+| Geometry | Correct floor elevations, transforms, openings, stairs and landings; complete discharge routes | Reference dimensions, per-floor overlays and stair-route inspection |
+| Semantics | Correct horizontal and vertical connections, evidence and explicit unknowns | Labelled reference topology including complete stair routes |
 | Adapter consistency | Scenario restrictions apply to graph and simulator; unsupported cases are rejected | Tests with blocked, unknown and disconnected passages |
-| Simulation verification | No unexplained agent creation/loss; boundary restrictions respected; stopping conditions correct | Logs, trajectories and test results |
-| Behavioural validation | Compare relevant model outputs with suitable empirical evidence or accepted benchmarks | Dataset/benchmark provenance, calibration choices and held-out evaluation where possible |
+| Simulation verification | No unexplained agent creation/loss during floor transfer; no instant stair jumps; restrictions and stopping conditions correct | Logs, per-occupant traces and counts across floors/stairs |
+| Behavioural validation | Assess stair travel and merging, alongside suitable empirical/reference evidence for the selected movement model | Benchmark provenance, calibration choices and held-out evaluation where possible |
 | Intended-use review | Results and model omissions appropriate to the decision being considered | Domain review and explicit restrictions on use |
+| Toolkit contract | Valid/invalid tool inputs, structured outputs, jobs, retries, cancellation, errors and artifact access | Contract tests, tested module/adapter versions and reference-client traces |
+| Agent-assisted integration | Toolkit discovers tools, runs a supported comparison and presents returned measurements accurately | Actual toolkit integration trace, artifact references and officer feedback |
 
 Start the reference topology by hand on the fictional floor. Later, have a building reviewer independently label a small real-model test set. Do not evaluate the extractor only against labels created by the same extraction algorithm.
 
@@ -44,12 +46,20 @@ Start the reference topology by hand on the fictional floor. Later, have a build
 8. **Run limit:** stopping at the configured horizon cannot be reported as complete evacuation.
 9. **New edition:** changed or deleted source elements invalidate affected mappings and prompt review.
 10. **Repeatability:** a second person can explain and reproduce the accepted case within a documented tolerance.
+11. **Stair mapping:** wrong elevation, missing flight or swapped landing must not create a valid route; arrival at a landing must not remove an occupant as a building exit.
+12. **Transfer accounting:** an occupant retains identity and origin floor while moving through stairs; no person is duplicated, lost or counted as exited twice.
+13. **Merging:** compare a shared-stair example with one floor feeding it and with multiple floors feeding it; inspect trajectories, queues and sensitivity to arrivals. Do not assume that a realistic-looking queue validates the model.
+14. **Endpoint coverage:** every reported external arrival corresponds to the declared target; any excluded floors or missing stair demand are visible in the assessment.
 
 Choose numeric tolerances with the reviewers before evaluating results. Record why they fit the geometry, model and research question; do not invent a universal “safe” threshold.
 
+The [FDDE contract](toolkit-integration-contract.md#acceptance-demonstration) adds integration checks. Duplicate submission should return the existing job, stale validation should be rejected, and cancellation is reported complete only after confirmation. A local reference-client test establishes contract behaviour; a real toolkit run establishes the tested integration. Neither replaces the movement-model evidence above.
+
 ## Measurement and uncertainty
 
-Define the counting boundaries, time origin, density/queue measurement method and outcome criteria. Keep failed, invalid, incomplete and completed runs separate. Report how many people reached which targets and how many remained.
+Define the counting boundaries, time origin, density/queue measurement method and outcome criteria. Keep failed, invalid, incomplete and completed runs separate. Report how many people reached which external targets and how many remained on floors or in stairs. Preserve origin-floor labels for completed and incomplete journeys.
+
+Distinguish floor clearance, stair entry, stair discharge and external-target arrival. A cleared office floor may still have its occupants queued in a stair. For core scenarios with a fixed initial population, check that initial occupants equal people remaining in the model plus recorded external arrivals at every reporting step.
 
 Vary uncertain inputs such as population, starting distribution, movement parameters and response assumptions. Keep the seed list and number of repetitions. Check whether the apparent ranking of scenarios changes under plausible assumptions rather than reporting one favoured run.
 
@@ -59,7 +69,7 @@ A second simulator can reveal implementation or modelling differences, but agree
 
 - It does not model smoke, heat, visibility loss or the time until conditions become untenable.
 - Movement-to-target time does not include every detection, alarm, decision and response delay unless those are explicitly modelled.
-- Reaching a floor exit or stair landing is not a whole-building evacuation result.
+- Reaching a floor exit or stair landing is an intermediate result. The multi-floor demonstration must continue to its declared external targets and identify any omitted floors or populations.
 - A generic pedestrian agent does not establish behaviour for mobility limitations, assisted evacuation, groups or emergency responders.
 - A static building record does not prove present operating conditions.
 

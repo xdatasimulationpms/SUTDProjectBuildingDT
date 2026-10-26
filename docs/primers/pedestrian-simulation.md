@@ -12,6 +12,8 @@ sources:
     resource: https://www.jupedsim.org/stable/concepts/routing.html
   - id: disclaimer
     resource: https://www.jupedsim.org/stable/disclaimer.html
+  - id: stairs
+    resource: https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/create-stairs/
 ---
 # Pedestrian Simulation Explained
 
@@ -31,8 +33,8 @@ Finding a short route does not establish a fast or safe evacuation. A bottleneck
 
 | Input | Questions to answer |
 |---|---|
-| Walkable geometry | What floor region is included, and which obstacles and openings are represented? |
-| Population | How many people, where do they start, and how were those assumptions chosen? |
+| Walkable geometry | Which floors, stair flights, landings and discharge routes are included, with what elevations and obstacles? |
+| Population | How many people start on each floor, and how were those assumptions chosen? |
 | Movement model | Which model and parameters are used? What behaviours does it omit? |
 | Route choice | Which targets or waypoints do people follow, and what do they know? |
 | Scenario changes | Which passages are unavailable? Are changes static or time-dependent? |
@@ -49,9 +51,26 @@ This makes a small floor a useful learning case. It also creates a design check:
 
 **Intended-use limitation:** JuPedSim's official disclaimer describes academic use and warns that its predictions may be unsuitable for life-safety conclusions.[^disclaimer] Use it to learn and test research methods. Do not treat it as the default engine for an operational evacuation product without a separate suitability, validation, licensing and support review.
 
+## How multiple floors change the model
+
+The confirmed project outcome includes movement across floors. People must travel from rooms to stairs, descend through flights and landings, join flows from other floors and continue through the discharge level to the defined external target. A level transition needs meaningful travel and interaction behaviour in the selected engine.
+
+Pathfinder's official stair tutorial provides an example with multiple floors and landings.[^stairs] It is a useful trial reference, while the [engine feasibility check](../tools-and-references.md#early-engine-feasibility-check) also tests scenario inputs and result access for the eventual application.
+
+Keep these events distinct:
+
+| Event | Meaning |
+|---|---|
+| Floor cleared | The specified floor region is empty; its former occupants may still be in stairs |
+| Landing reached | An intermediate point on the route has been reached |
+| Stair discharged | The occupant has left the selected stair at its discharge level |
+| External target reached | The occupant has completed the declared modelled route |
+
+Do not run each floor independently and add the clearance times. Shared stairs create interactions and queues that those separate runs omit. Preserve the same person's identity and starting floor through the complete journey, and include people who remain or cannot find an eligible route in the report.
+
 ## Compare scenarios carefully
 
-Start with a baseline, the same case with one passage unavailable, and a case with changed occupancy. Keep the building edition and other assumptions fixed when making a controlled comparison. Reuse a documented seed list where appropriate, while recognising that different algorithms or environments can still produce differences.
+Start with a baseline, the same case with one exit or stair route unavailable, and a case with changed occupancy across floors. Keep the building edition and other assumptions fixed when making a controlled comparison. Reuse a documented seed list where appropriate, while recognising that different algorithms or environments can still produce differences.
 
 Report distributions across repeated runs rather than presenting one random run as a prediction. An initial batch of ten seeds can exercise the reporting workflow, but it is not a statistical assurance rule. Determine the needed replication and sensitivity analysis with the reviewer.
 
@@ -61,14 +80,17 @@ Useful measures include people remaining over time, target arrival times, passag
 
 If people remain when the run stops, report a censored or incomplete result. Do not report the stopping time as a completed evacuation time or drop the unsuccessful people from the summary. A crowded animation alone is not a validated density measurement.
 
-The first-floor experiment measures **movement to defined model targets**. It does not compute the entire time from fire development or alarm to safety, and it does not model smoke or heat. Do not label its output “safe evacuation time”.
+The multi-floor experiment measures **movement to the defined external targets** under the stated assumptions. It does not compute the entire time from fire development or alarm to safety, and it does not model smoke or heat. Do not label its output “safe evacuation time”.
 
 ## A first exercise
 
 Run the official getting-started example linked in [tools and references](../tools-and-references.md#simulation-learning). Record its original assumptions. Change one input, rerun, and explain the difference without asserting that it predicts a real building. Use the [experiment report](../../templates/experiment-report.md).
+
+Then, in the early engine trial, use two upper floors and a discharge level sharing a stair. Trace one occupant from each origin floor to the endpoint and check the population counts before examining congestion.
 
 Continue with [validation and safety](../validation-and-safety.md).
 
 [^geometry]: [JuPedSim geometry concepts](https://www.jupedsim.org/stable/concepts/geometry.html).
 [^routing]: [JuPedSim routing concepts](https://www.jupedsim.org/stable/concepts/routing.html).
 [^disclaimer]: [JuPedSim disclaimer](https://www.jupedsim.org/stable/disclaimer.html).
+[^stairs]: [Pathfinder multi-floor stair tutorial](https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/create-stairs/).

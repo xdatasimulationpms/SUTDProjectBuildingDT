@@ -1,7 +1,7 @@
 ---
 type: Technology Guide
 title: "Tools and Learning References"
-description: "A small proposed toolchain, official learning links and later engine choices for building evacuation research."
+description: "A proposed toolchain and early engine checks for a callable multi-floor evacuation module integrated with FDDE."
 generated: { by: openai/codex, at: 2026-10-26T00:00:00Z }
 status: draft
 stale_after: 2027-01-26T00:00:00Z
@@ -24,6 +24,12 @@ sources:
     resource: https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/ifc-import/
   - id: pathfinder-stairs
     resource: https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/create-stairs/
+  - id: pathfinder-run
+    resource: https://www.thunderheadeng.com/docs/2026-1/pathfinder/simulation/starting/
+  - id: anylogic-levels
+    resource: https://anylogic.help/markup/level.html
+  - id: jupedsim-geometry
+    resource: https://www.jupedsim.org/stable/concepts/geometry.html
 ---
 # Tools and Learning References
 
@@ -42,23 +48,44 @@ Use a small local toolchain first. The roles below are proposed project choices 
 | Explore connectivity | NetworkX | Graph nodes, edges and queries. The reviewer and rules determine which edges are valid.[^networkx] |
 | Store the first records | JSON, optionally SQLite later | Keep it local and inspectable. No graph server or cloud object store required initially |
 | Learn movement simulation | JuPedSim | Python interface with a C++ simulation core; useful for controlled research exercises. Academic intended-use warning applies.[^jupedsim][^disclaimer] |
-| Build simple local screens | Streamlit, after the data workflow works | Candidate for forms, tables and plots. Review editing needs before committing to a more elaborate floor editor.[^streamlit] |
+| Run the multi-floor pilot | An existing engine passing the Month 2 trial | Assess Pathfinder and any suitable available AnyLogic model/licence; establish stairs, merging, structured scenario inputs and result access before selecting |
+| Expose toolkit capabilities | One thin adapter matching the FDDE interface | Follow the [integration contract](toolkit-integration-contract.md); agree the binding in Month 1 and reuse common processing functions |
+| Support model review | Small reference client; optional Streamlit views | Forms and plots can support data review. A dedicated officer dashboard is optional.[^streamlit] |
 
 Review each dependency's exact release, platform support, licence and maintenance status when implementation begins. A documentation version is not proof that the corresponding package combination is compatible. No package versions are pinned yet because no environment has been tested.
 
 ## Hardware for the first experiment
 
-**Planning recommendation, not a benchmark:** start with an ordinary recent laptop or desktop, approximately 16 GB RAM or more and local SSD space. More memory may help with large IFC models, but reduce to a small reviewed floor before buying hardware. The proposed extraction, graph and small pedestrian experiments do not need a CUDA workflow or an NVIDIA GPU. A viewer still needs a graphics environment supported by its application.
+**Planning recommendation, not a benchmark:** start extraction and learning on a recent laptop or desktop with approximately 16 GB RAM or more and local SSD space. For the multi-floor engine, confirm its supported operating system, graphics and memory requirements during the Month 2 trial. Use a small connected-floor sample to measure resource needs before buying hardware. A CUDA workflow is not a project requirement.
 
 Measure IFC processing time, peak memory, simulation run time and output size on the actual sample. Use those measurements to decide whether a workstation is needed. GPU rendering and robotics/sensor simulation are separate later requirements, not reasons to start with Isaac Sim for this task.
 
-## A second engine to assess later
+## Early engine feasibility check
 
-**Pathfinder is a candidate comparison, not a selected dependency.** Its vendor tutorial demonstrates IFC import and extraction of floors, doors and stairs, while also showing manual cleanup of misinterpreted objects.[^pathfinder-ifc] A separate tutorial demonstrates multi-floor stairs.[^pathfinder-stairs]
+Multiple floors and FDDE integration are part of the confirmed final deliverable. Agree the toolkit contract in Month 1, then test the callable engine route in **Month 2**, alongside IFC inspection, using two upper levels and a shared stair. Select one engine after the trial; the table is a shortlist rather than a commitment to implement several engines.
 
-That makes it worth assessing when the project needs multi-floor evacuation workflows or a comparison against a specialist tool. Evaluate trial/licence terms, supported platforms, automation, input/output access, validation documentation and technical support before procurement. No paid software has been purchased or installed here. Import success in any tool does not certify the scenario or building.
+| Candidate | Source finding | Proposed assessment |
+|---|---|---|
+| Pathfinder | Official examples demonstrate IFC-derived floors/doors/stairs and a multi-floor stair layout. Its run documentation describes batch/command-line execution.[^pathfinder-ifc][^pathfinder-stairs][^pathfinder-run] | A useful first specialist trial if access is available. Test scenario parameter changes, source-ID mapping and result retrieval as well as execution |
+| AnyLogic | Its official level documentation describes multiple levels and pedestrian transitions using target lines and `PedChangeLevel`.[^anylogic-levels] | Assess reuse if a suitable model and licence are available. A level-change block alone does not establish stair travel, capacity or merging behaviour; demonstrate the full model and callable module interface |
+| JuPedSim | The geometry reference describes a planar walkable polygon and connected union.[^jupedsim-geometry] | Retain for introductory movement experiments. That documented geometry does not by itself establish a multi-floor stair/merge implementation; it is not the assumed core engine |
 
-Keep a research adapter and an eventual product engine decision separate. Product requirements may favour adapting a specialist engine rather than writing all evacuation behaviour ourselves.
+For a one-person, half-time project, reuse an engine with the required behaviour. A custom stair model or coordination layer between separate floor simulators would become a substantial additional research task.
+
+The trial must demonstrate:
+
+1. Travel through stair flights and landings with explicit geometry and movement parameters, rather than an instantaneous floor jump.
+2. People from different floors sharing the stair and interacting at a landing.
+3. Persistent occupant IDs and correct counts while moving between levels.
+4. An exit or stair-route restriction, with people who cannot reach a target still reported.
+5. A reference client supplying structured population/availability settings, receiving a job reference, obtaining status and retrieving results through the agreed contract. Record every manual model-preparation step.
+6. Available licence terms, platform and deployment arrangements for module execution in the toolkit environment.
+
+For Pathfinder, command-line execution of a prepared file does not by itself prove that arbitrary model edits can be automated. Demonstrate the supported route for producing the selected scenario files. For AnyLogic, similarly verify the chosen edition and model's input/output interface and any export rights. No engine or licence has been selected or installed here.
+
+Record the findings and choose the simplest workable adapter. If required access or functionality is unavailable, resolve that dependency and revise the schedule early; a single-floor result does not satisfy the final requirement.
+
+Confirm engine unattended execution, restart/failure reporting and cancellation behaviour before relying on them in the agent-facing job contract. Toolkit discovery, input/output schemas, job controls and integration acceptance are defined in the [module contract](toolkit-integration-contract.md). A successful engine run is only one part of that acceptance.
 
 ## Programming and version control
 
@@ -97,7 +124,10 @@ If a tutorial offers a downloadable model, check its use and redistribution term
 | [JuPedSim geometry](https://www.jupedsim.org/stable/concepts/geometry.html) | Walkable regions and obstacles | Test a valid region and an unsupported disconnected case |
 | [JuPedSim routing](https://www.jupedsim.org/stable/concepts/routing.html) | Stages, journeys, transitions and exit events | Identify precisely when a person is removed from the model |
 | [JuPedSim disclaimer](https://www.jupedsim.org/stable/disclaimer.html) | Intended use and responsibility | Explain why a tutorial run is not a safety prediction |
-| [Pathfinder IFC tutorial](https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/ifc-import/) | An alternative specialist import workflow | Review the cleanup requirements before considering a trial |
+| [Pathfinder IFC tutorial](https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/ifc-import/) | A specialist import workflow | Identify where floors, doors or stairs need manual correction |
+| [Pathfinder stair tutorial](https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/create-stairs/) | A connected multi-floor example | Use as a starting point for the early engine trial, where access is available |
+| [Pathfinder run documentation](https://www.thunderheadeng.com/docs/2026-1/pathfinder/simulation/starting/) | Batch and command-line execution | Test preparation and execution of the chosen scenario files and retrieval of outputs |
+| [AnyLogic levels](https://anylogic.help/markup/level.html) | Levels and pedestrian transfer points | If available, demonstrate stair movement and merging in a complete model, not just a level transition |
 
 For professional context, see [SCDF's performance-based plan approval process](https://www.scdf.gov.sg/fire-safety-services-listing/plans-submission-process/performance-based-approach-to-fire-safety-design/performance-based-plan-approval-process). It is background on the regulated design process, not a substitute for the domain review described in [validation and safety](validation-and-safety.md).
 
@@ -110,3 +140,6 @@ For professional context, see [SCDF's performance-based plan approval process](h
 [^disclaimer]: [JuPedSim intended-use disclaimer](https://www.jupedsim.org/stable/disclaimer.html).
 [^pathfinder-ifc]: [Pathfinder IFC import example](https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/ifc-import/).
 [^pathfinder-stairs]: [Pathfinder multi-floor stair example](https://www.thunderheadeng.com/docs/2026-1/pathfinder/examples/how-to/create-stairs/).
+[^pathfinder-run]: [Pathfinder starting and managing simulations](https://www.thunderheadeng.com/docs/2026-1/pathfinder/simulation/starting/).
+[^anylogic-levels]: [AnyLogic level reference](https://anylogic.help/markup/level.html).
+[^jupedsim-geometry]: [JuPedSim geometry concepts](https://www.jupedsim.org/stable/concepts/geometry.html).

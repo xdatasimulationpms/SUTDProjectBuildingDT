@@ -43,6 +43,14 @@ These are teaching examples, not records of a real building. With D2 blocked and
 
 A graph can be stored as ordinary tables or JSON. A graph database may help later with complex queries, but it does not decide which connections are true. Start with a narrow model that answers the project's questions, not a universal vocabulary for everything in a building.
 
+## Connections between floors
+
+For the multi-floor project, represent stair landings as places and flights as connections between the relevant landings. Keep the stair system's identity so the model can recognise that different floors share it. Record the served floors, elevation change, usable geometry, direction and evidence for each connection.
+
+A graph edge saying “Floor 2 connects to Floor 1” is useful for finding candidate routes, but the simulator also needs the intervening flights and landings. It must represent travel and the interaction between people already descending and those joining from a lower floor.
+
+Review the full route through the discharge level and building exit to the stated external target. A landing or a staircase label is not an endpoint. Floors lying above one another must remain spatially distinct even when their plan shapes overlap.
+
 ## Meaning needs context and evidence
 
 For each important statement, record:
