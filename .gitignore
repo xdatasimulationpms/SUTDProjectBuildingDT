@@ -1,0 +1,39 @@
+# Real building inputs, derived layouts, private notes and experiment outputs
+/local-data/
+/outputs/
+/runs/
+/data/raw/
+/data/derived/
+*.[iI][fF][cC]
+*.[iI][fF][cC][zZ][iI][pP]
+*.[rR][vV][tT]
+*.[rR][fF][aA]
+*.[dD][wW][gG]
+*.[nN][wW][dD]
+*.[nN][wW][cC]
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python and editor-generated files
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
